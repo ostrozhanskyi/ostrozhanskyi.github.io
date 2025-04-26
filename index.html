@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Palette Picker Game</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    .images {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 30px;
+    }
+    img {
+      width: 400px;
+      height: 400px;
+      cursor: pointer;
+      border: 5px solid transparent;
+      transition: transform 0.2s;
+    }
+    img:hover {
+      transform: scale(1.05);
+      border-color: #999;
+    }
+    .results {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Pick Your Favorite Palette</h1>
+  <div class="images" id="imageContainer"></div>
+  <div class="results" id="results"></div>
+
+  <script>
+    const imageLinks = [
+      "https://colorpalettes.net/wp-content/uploads/2015/02/cvetovaya-palitra-1394.png",
+      "https://colorpalettes.net/wp-content/uploads/2014/11/cvetovaya-palitra-731.jpg",
+      "https://colorpalettes.net/wp-content/uploads/2015/04/cvetovaya-palitra-1734.png",
+      "https://colorpalettes.net/wp-content/uploads/2015/01/cvetovaya-palitra-980.jpg",
+      "https://colorpalettes.net/wp-content/uploads/2016/08/color-palette-2957.png",
+      "https://colorpalettes.net/wp-content/uploads/2015/12/color-palette-2442.png",
+      "https://colorpalettes.net/wp-content/uploads/2015/01/cvetovaya-palitra-1093.jpg",
+      "https://colorpalettes.net/wp-content/uploads/2014/10/cvetovaya-palitra-614.jpg",
+      "https://colorpalettes.net/wp-content/uploads/2014/11/cvetovaya-palitra-755.jpg",
+      "https://colorpalettes.net/wp-content/uploads/2015/01/cvetovaya-palitra-1085.jpg",
+      "https://colorpalettes.net/wp-content/uploads/2014/10/cvetovaya-palitra-630.jpg",
+      "https://colorpalettes.net/wp-content/uploads/2013/11/cvetovaya-palitra-113.jpg",
+      "https://colorpalettes.net/wp-content/uploads/2014/09/cvetovaya-palitra-550.jpg"
+    ];
+
+    const images = imageLinks.map(url => ({
+      src: url,
+      picked: 0,
+      discarded: 0
+    }));
+
+    const container = document.getElementById("imageContainer");
+    const resultsDiv = document.getElementById("results");
+
+    function getTwoRandomImages() {
+      const available = images.filter(img => img.discarded < 2);
+      if (available.length <= 2) return available;
+
+      let firstIndex = Math.floor(Math.random() * available.length);
+      let secondIndex;
+      do {
+        secondIndex = Math.floor(Math.random() * available.length);
+      } while (secondIndex === firstIndex);
+
+      return [available[firstIndex], available[secondIndex]];
+    }
+
+    function renderImages() {
+      container.innerHTML = "";
+      const available = images.filter(img => img.discarded < 2);
+
+      if (available.length <= 2) {
+        showFinalResults();
+        return;
+      }
+
+      const [img1, img2] = getTwoRandomImages();
+
+      const createImage = (img, otherImg) => {
+        const el = document.createElement("img");
+        el.src = img.src;
+        el.className = "palette";
+        el.onclick = () => {
+          img.picked++;
+          otherImg.discarded++;
+          renderImages();
+        };
+        return el;
+      };
+
+      container.appendChild(createImage(img1, img2));
+      container.appendChild(createImage(img2, img1));
+    }
+
+    function showFinalResults() {
+      container.innerHTML = "";
+      resultsDiv.innerHTML = "<h2>Results:</h2>";
+      images.forEach(img => {
+        resultsDiv.innerHTML += `
+          <div>
+            <img src="${img.src}" />
+            <p>Picked: ${img.picked}, Discarded: ${img.discarded}</p>
+          </div>
+        `;
+      });
+    }
+
+    renderImages();
+  </script>
+</body>
+</html>
