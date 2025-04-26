@@ -56,15 +56,15 @@
 
     const images = imageLinks.map(url => ({
       src: url,
-      picked: 0,
-      discarded: 0
+      yay: 0,
+      nay: 0
     }));
 
     const container = document.getElementById("imageContainer");
     const resultsDiv = document.getElementById("results");
 
     function getTwoRandomImages() {
-      const available = images.filter(img => img.discarded < 2);
+      const available = images.filter(img => img.nay < 2);
       if (available.length <= 2) return available;
 
       let firstIndex = Math.floor(Math.random() * available.length);
@@ -78,7 +78,7 @@
 
     function renderImages() {
       container.innerHTML = "";
-      const available = images.filter(img => img.discarded < 2);
+      const available = images.filter(img => img.nay < 2);
 
       if (available.length <= 2) {
         showFinalResults();
@@ -92,8 +92,8 @@
         el.src = img.src;
         el.className = "palette";
         el.onclick = () => {
-          img.picked++;
-          otherImg.discarded++;
+          img.yay++;
+          otherImg.nay++;
           renderImages();
         };
         return el;
@@ -106,11 +106,15 @@
     function showFinalResults() {
       container.innerHTML = "";
       resultsDiv.innerHTML = "<h2>Results:</h2>";
+
+      // Sort the images by "yay" value in descending order
+      images.sort((a, b) => b.yay - a.yay);
+
       images.forEach(img => {
         resultsDiv.innerHTML += `
           <div>
             <img src="${img.src}" />
-            <p>Picked: ${img.picked}, Discarded: ${img.discarded}</p>
+            <p>👍: ${img.yay}, 👎: ${img.nay}</p>
           </div>
         `;
       });
