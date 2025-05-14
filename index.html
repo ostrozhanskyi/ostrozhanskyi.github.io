@@ -2,125 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Color Palette Picker Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Series Review</title>
   <style>
     body {
+      margin: 0;
+      padding: 2rem;
       font-family: sans-serif;
-      text-align: center;
-      margin-top: 50px;
+      background-color: #f9f9f9;
+      color: #222;
+      line-height: 1.6;
     }
-    .images {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      margin-bottom: 30px;
+
+    article {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 2rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      border-radius: 8px;
     }
-    img {
-      width: 400px;
-      height: 400px;
-      cursor: pointer;
-      border: 5px solid transparent;
-      transition: transform 0.2s;
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 1rem;
     }
-    img:hover {
-      transform: scale(1.05);
-      border-color: #999;
-    }
-    .results {
-      margin-top: 30px;
+
+    p {
+      margin-bottom: 1.2rem;
     }
   </style>
 </head>
 <body>
+  <article>
+    <h1>🤔</h1>
 
-  <h1>Pick Your Favorite Palette</h1>
-  <div class="images" id="imageContainer"></div>
-  <div class="results" id="results"></div>
+    <p>What is this Barbie-pink ending? His last words redeemed it a bit, but still... And of course, it's not without some final fight scene. Why? It was so good until the last 15 minutes.</p>
 
-  <script>
-    const imageLinks = [
-      "https://colorpalettes.net/wp-content/uploads/2015/02/cvetovaya-palitra-1394.png",
-      "https://colorpalettes.net/wp-content/uploads/2014/11/cvetovaya-palitra-731.jpg",
-      "https://colorpalettes.net/wp-content/uploads/2015/04/cvetovaya-palitra-1734.png",
-      "https://colorpalettes.net/wp-content/uploads/2015/01/cvetovaya-palitra-980.jpg",
-      "https://colorpalettes.net/wp-content/uploads/2016/08/color-palette-2957.png",
-      "https://colorpalettes.net/wp-content/uploads/2015/12/color-palette-2442.png",
-      "https://colorpalettes.net/wp-content/uploads/2015/01/cvetovaya-palitra-1093.jpg",
-      "https://colorpalettes.net/wp-content/uploads/2014/10/cvetovaya-palitra-614.jpg",
-      "https://colorpalettes.net/wp-content/uploads/2014/11/cvetovaya-palitra-755.jpg",
-      "https://colorpalettes.net/wp-content/uploads/2015/01/cvetovaya-palitra-1085.jpg",
-      "https://colorpalettes.net/wp-content/uploads/2014/10/cvetovaya-palitra-630.jpg",
-      "https://colorpalettes.net/wp-content/uploads/2013/11/cvetovaya-palitra-113.jpg",
-      "https://colorpalettes.net/wp-content/uploads/2014/09/cvetovaya-palitra-550.jpg"
-    ];
+    <p>I loved the bookstore setting returning for the final season. It felt fitting.</p>
 
-    const images = imageLinks.map(url => ({
-      src: url,
-      yay: 0,
-      nay: 0
-    }));
+    <p>How much damage can one psychopath cause with a bit of luck and the direct—or indirect—help of others?</p>
 
-    const container = document.getElementById("imageContainer");
-    const resultsDiv = document.getElementById("results");
+    <p>There were a lot of good moments. Overall, it was good. Except for the man-hating agenda.</p>
 
-    function getTwoRandomImages() {
-      const available = images.filter(img => img.nay < 2);
-      if (available.length <= 2) return available;
+    <p>They really showed how heartless Reagan was—no compassion for her own twin, even when both were in danger. I liked the actress, though. She played both twins really well. The bathroom scene, when Kate showed up at her home, was especially strong.</p>
 
-      let firstIndex = Math.floor(Math.random() * available.length);
-      let secondIndex;
-      do {
-        secondIndex = Math.floor(Math.random() * available.length);
-      } while (secondIndex === firstIndex);
+    <p>Joe continued to be, apart from a murderous maniac, a cheater and self-serving prick. Yet another girl fell for his "charms," only to get a wake-up call eventually.</p>
 
-      return [available[firstIndex], available[secondIndex]];
-    }
+    <p>The Bronte storyline is so messed up. It’s both good and bad. Not bad in terms of story structure, but I just couldn’t buy her falling for him like that and forgetting all about Beck. It made sense from the fake "Bronte" persona’s perspective, but not from her real-life character. I expected her to be portrayed as more intelligent from the start.</p>
 
-    function renderImages() {
-      container.innerHTML = "";
-      const available = images.filter(img => img.nay < 2);
+    <p>Kate had her wake-up call too. They showed how we justify what we think is “right” in the moment and ignore things that are equally or even more important—just to feel good now, without considering the future.</p>
 
-      if (available.length <= 2) {
-        showFinalResults();
-        return;
-      }
+    <p>Joe's manipulation of Maddy and his attempt with Harrison felt believable. Harrison realizing for the first time that he was actually being cheated on—that part was well done.</p>
 
-      const [img1, img2] = getTwoRandomImages();
+    <p>Why do no women in this story have a good man? It's crazy. Not even one example of a decent guy who lasted long enough to matter on screen—pun intended. From Joe’s father to Moonie, and all the men in between, even the one Joe put in the cage after attacking Bronte—they’re all twisted in their own way.</p>
 
-      const createImage = (img, otherImg) => {
-        const el = document.createElement("img");
-        el.src = img.src;
-        el.className = "palette";
-        el.onclick = () => {
-          img.yay++;
-          otherImg.nay++;
-          renderImages();
-        };
-        return el;
-      };
+    <p>But it’s not like they depict <em>everyone</em> like that. Some women have flaws too, and it’s about 50/50 overall. There are plenty of well-rounded female characters. So why not just one good man to provide contrast?</p>
 
-      container.appendChild(createImage(img1, img2));
-      container.appendChild(createImage(img2, img1));
-    }
+    <p>Okay—I was wrong. There <em>is</em> one: Kate’s half-brother, who’s gay. I remembered him when Kate signed over the company. But I meant a good man <em>for a woman</em>.</p>
 
-    function showFinalResults() {
-      container.innerHTML = "";
-      resultsDiv.innerHTML = "<h2>Results:</h2>";
+    <p>While I was watching, I kept hoping Bronte was really just pretending—to become someone else like Maddie, to break him. A bit insane, sure, but playing a long game just to hurt him. Maybe that’s silly, but from my perspective, it would’ve been satisfying.</p>
 
-      // Sort the images by "yay" value in descending order
-      images.sort((a, b) => b.yay - a.yay);
+    <p>The part with his son was perfect. It felt like a fitting conclusion. But honestly, I still don’t think Joe was hurt enough. Her shooting him in the forest? That was awful. I wonder which feminist writer thought that was a good idea to include.</p>
 
-      images.forEach(img => {
-        resultsDiv.innerHTML += `
-          <div>
-            <img src="${img.src}" />
-            <p>👍: ${img.yay}, 👎: ${img.nay}</p>
-          </div>
-        `;
-      });
-    }
+    <p>The scene with Marienne and Bronte in the bookshop was powerful. But the transition—from love and understanding back to her old self—felt too rushed.</p>
 
-    renderImages();
-  </script>
+    <p>Joe’s character really shows how words can carry passion and feel meaningful in the moment, but he’s ultimately just a psycho. He can flip at any second, and you never know when it’ll happen—but it always does. All those beautiful, romantic moments can turn to carnage in the blink of an eye.</p>
+
+    <p>So, rotting in prison is a fitting end... but still not enough for me.</p>
+  </article>
 </body>
 </html>
