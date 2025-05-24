@@ -2,74 +2,121 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Series Review</title>
+  <title>Headache or Migraine?</title>
   <style>
     body {
-      margin: 0;
-      padding: 2rem;
-      font-family: sans-serif;
-      background-color: #f9f9f9;
-      color: #222;
-      line-height: 1.6;
-    }
-
-    article {
-      max-width: 800px;
-      margin: 0 auto;
-      background-color: white;
-      padding: 2rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f7f7f7;
       border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
     h1 {
-      font-size: 2em;
-      margin-bottom: 1rem;
+      text-align: center;
     }
-
-    p {
-      margin-bottom: 1.2rem;
+    label {
+      display: block;
+      margin: 12px 0;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 30px;
+      font-weight: bold;
+      font-size: 18px;
     }
   </style>
 </head>
 <body>
-  <article>
-    <h1>🤔</h1>
 
-    <p>What is this Barbie-pink ending? His last words redeemed it a bit, but still... And of course, it's not without some final fight scene. Why? It was so good until the last 15 minutes.</p>
+  <h1>Headache vs Migraine Checker</h1>
 
-    <p>I loved the bookstore setting returning for the final season. It felt fitting.</p>
+  <form id="symptomForm">
+    <label>
+      1. Pain location:
+      <select name="q1">
+        <option value="headache">Both sides / forehead</option>
+        <option value="migraine">One side</option>
+      </select>
+    </label>
 
-    <p>How much damage can one psychopath cause with a bit of luck and the direct—or indirect—help of others?</p>
+    <label>
+      2. Pain type:
+      <select name="q2">
+        <option value="headache">Dull or pressing</option>
+        <option value="migraine">Throbbing or pulsing</option>
+      </select>
+    </label>
 
-    <p>There were a lot of good moments. Overall, it was good. Except for the man-hating agenda.</p>
+    <label>
+      3. Intensity:
+      <select name="q3">
+        <option value="headache">Mild to moderate</option>
+        <option value="migraine">Moderate to severe</option>
+      </select>
+    </label>
 
-    <p>They really showed how heartless Reagan was—no compassion for her own twin, even when both were in danger. I liked the actress, though. She played both twins really well. The bathroom scene, when Kate showed up at her home, was especially strong.</p>
+    <label>
+      4. Nausea or vomiting:
+      <select name="q4">
+        <option value="headache">No</option>
+        <option value="migraine">Yes</option>
+      </select>
+    </label>
 
-    <p>Joe continued to be, apart from a murderous maniac, a cheater and self-serving prick. Yet another girl fell for his "charms," only to get a wake-up call eventually.</p>
+    <label>
+      5. Light/sound/smell sensitivity:
+      <select name="q5">
+        <option value="headache">No</option>
+        <option value="migraine">Yes</option>
+      </select>
+    </label>
 
-    <p>The Bronte storyline is so messed up. It’s both good and bad. Not bad in terms of story structure, but I just couldn’t buy her falling for him like that and forgetting all about Beck. It made sense from the fake "Bronte" persona’s perspective, but not from her real-life character. I expected her to be portrayed as more intelligent from the start.</p>
+    <label>
+      6. Worse with movement:
+      <select name="q6">
+        <option value="headache">No</option>
+        <option value="migraine">Yes</option>
+      </select>
+    </label>
 
-    <p>Kate had her wake-up call too. They showed how we justify what we think is “right” in the moment and ignore things that are equally or even more important—just to feel good now, without considering the future.</p>
+    <label>
+      7. Aura (flashing lights, numbness, etc.):
+      <select name="q7">
+        <option value="headache">No</option>
+        <option value="migraine">Yes</option>
+      </select>
+    </label>
 
-    <p>Joe's manipulation of Maddy and his attempt with Harrison felt believable. Harrison realizing for the first time that he was actually being cheated on—that part was well done.</p>
+    <button type="submit">Check</button>
+  </form>
 
-    <p>Why do no women in this story have a good man? It's crazy. Not even one example of a decent guy who lasted long enough to matter on screen—pun intended. From Joe’s father to Moonie, and all the men in between, even the one Joe put in the cage after attacking Bronte—they’re all twisted in their own way.</p>
+  <div id="result"></div>
 
-    <p>But it’s not like they depict <em>everyone</em> like that. Some women have flaws too, and it’s about 50/50 overall. There are plenty of well-rounded female characters. So why not just one good man to provide contrast?</p>
+  <script>
+    document.getElementById("symptomForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      let migraineScore = 0;
+      for (let i = 0; i < form.length; i++) {
+        if (form[i].value === "migraine") {
+          migraineScore++;
+        }
+      }
 
-    <p>Okay—I was wrong. There <em>is</em> one: Kate’s half-brother, who’s gay. I remembered him when Kate signed over the company. But I meant a good man <em>for a woman</em>.</p>
+      const result = document.getElementById("result");
+      if (migraineScore >= 4) {
+        result.textContent = "Your symptoms are more consistent with a migraine.";
+      } else {
+        result.textContent = "Your symptoms are more consistent with a regular headache.";
+      }
+    });
+  </script>
 
-    <p>While I was watching, I kept hoping Bronte was really just pretending—to become someone else like Maddie, to break him. A bit insane, sure, but playing a long game just to hurt him. Maybe that’s silly, but from my perspective, it would’ve been satisfying.</p>
-
-    <p>The part with his son was perfect. It felt like a fitting conclusion. But honestly, I still don’t think Joe was hurt enough. Her shooting him in the forest? That was awful. I wonder which feminist writer thought that was a good idea to include.</p>
-
-    <p>The scene with Marienne and Bronte in the bookshop was powerful. But the transition—from love and understanding back to her old self—felt too rushed.</p>
-
-    <p>Joe’s character really shows how words can carry passion and feel meaningful in the moment, but he’s ultimately just a psycho. He can flip at any second, and you never know when it’ll happen—but it always does. All those beautiful, romantic moments can turn to carnage in the blink of an eye.</p>
-
-    <p>So, rotting in prison is a fitting end... but still not enough for me.</p>
-  </article>
 </body>
 </html>
