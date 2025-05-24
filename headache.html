@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Headache or Migraine?</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f7f7f7;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin: 12px 0;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 30px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Headache vs Migraine Checker</h1>
+
+  <form id="symptomForm">
+    <label>
+      1. Pain location:
+      <select name="q1">
+        <option value="headache">Both sides / forehead</option>
+        <option value="migraine">One side</option>
+      </select>
+    </label>
+
+    <label>
+      2. Pain type:
+      <select name="q2">
+        <option value="headache">Dull or pressing</option>
+        <option value="migraine">Throbbing or pulsing</option>
+      </select>
+    </label>
+
+    <label>
+      3. Intensity:
+      <select name="q3">
+        <option value="headache">Mild to moderate</option>
+        <option value="migraine">Moderate to severe</option>
+      </select>
+    </label>
+
+    <label>
+      4. Nausea or vomiting:
+      <select name="q4">
+        <option value="headache">No</option>
+        <option value="migraine">Yes</option>
+      </select>
+    </label>
+
+    <label>
+      5. Light/sound/smell sensitivity:
+      <select name="q5">
+        <option value="headache">No</option>
+        <option value="migraine">Yes</option>
+      </select>
+    </label>
+
+    <label>
+      6. Worse with movement:
+      <select name="q6">
+        <option value="headache">No</option>
+        <option value="migraine">Yes</option>
+      </select>
+    </label>
+
+    <label>
+      7. Aura (flashing lights, numbness, etc.):
+      <select name="q7">
+        <option value="headache">No</option>
+        <option value="migraine">Yes</option>
+      </select>
+    </label>
+
+    <button type="submit">Check</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    document.getElementById("symptomForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      let migraineScore = 0;
+      for (let i = 0; i < form.length; i++) {
+        if (form[i].value === "migraine") {
+          migraineScore++;
+        }
+      }
+
+      const result = document.getElementById("result");
+      if (migraineScore >= 4) {
+        result.textContent = "Your symptoms are more consistent with a migraine.";
+      } else {
+        result.textContent = "Your symptoms are more consistent with a regular headache.";
+      }
+    });
+  </script>
+
+</body>
+</html>
