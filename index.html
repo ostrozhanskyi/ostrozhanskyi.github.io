@@ -89,43 +89,43 @@
     <form id="symptomForm">
       <div class="question">
         <p>1. Where is the pain located?</p>
-        <label><input type="radio" name="q1" value="headache" required> Both sides or forehead</label>
+        <label><input type="radio" name="q1" value="headache"> Both sides or forehead</label>
         <label><input type="radio" name="q1" value="migraine"> One side</label>
       </div>
 
       <div class="question">
         <p>2. What does the pain feel like?</p>
-        <label><input type="radio" name="q2" value="headache" required> Dull or pressing</label>
+        <label><input type="radio" name="q2" value="headache"> Dull or pressing</label>
         <label><input type="radio" name="q2" value="migraine"> Throbbing or pulsing</label>
       </div>
 
       <div class="question">
         <p>3. How intense is the pain?</p>
-        <label><input type="radio" name="q3" value="headache" required> Mild to moderate</label>
+        <label><input type="radio" name="q3" value="headache"> Mild to moderate</label>
         <label><input type="radio" name="q3" value="migraine"> Moderate to severe</label>
       </div>
 
       <div class="question">
         <p>4. Do you feel nauseous or vomit?</p>
-        <label><input type="radio" name="q4" value="headache" required> No</label>
+        <label><input type="radio" name="q4" value="headache"> No</label>
         <label><input type="radio" name="q4" value="migraine"> Yes</label>
       </div>
 
       <div class="question">
         <p>5. Are you sensitive to light, sound, or smells?</p>
-        <label><input type="radio" name="q5" value="headache" required> No</label>
+        <label><input type="radio" name="q5" value="headache"> No</label>
         <label><input type="radio" name="q5" value="migraine"> Yes</label>
       </div>
 
       <div class="question">
         <p>6. Does movement make it worse?</p>
-        <label><input type="radio" name="q6" value="headache" required> No</label>
+        <label><input type="radio" name="q6" value="headache"> No</label>
         <label><input type="radio" name="q6" value="migraine"> Yes</label>
       </div>
 
       <div class="question">
         <p>7. Do you experience an aura (like flashing lights or numbness)?</p>
-        <label><input type="radio" name="q7" value="headache" required> No</label>
+        <label><input type="radio" name="q7" value="headache"> No</label>
         <label><input type="radio" name="q7" value="migraine"> Yes</label>
       </div>
 
@@ -136,24 +136,40 @@
   </div>
 
   <script>
-    document.getElementById("symptomForm").addEventListener("submit", function(e) {
+    document.getElementById("symptomForm").addEventListener("submit", function (e) {
       e.preventDefault();
       const form = e.target;
+      const result = document.getElementById("result");
       const formData = new FormData(form);
-      let migraineScore = 0;
 
-      for (const value of formData.values()) {
-        if (value === "migraine") {
-          migraineScore++;
+      let migraineScore = 0;
+      let answered = 0;
+
+      for (let i = 1; i <= 7; i++) {
+        const value = formData.get("q" + i);
+        if (value) {
+          answered++;
+          if (value === "migraine") {
+            migraineScore++;
+          }
         }
       }
 
-      const result = document.getElementById("result");
+      if (answered < 7) {
+        result.textContent = "Please answer all questions before checking the result.";
+        result.style.background = "#fff3cd";
+        result.style.borderLeft = "5px solid #ffa500";
+        return;
+      }
 
       if (migraineScore >= 4) {
         result.textContent = "Your symptoms are more consistent with a migraine.";
+        result.style.background = "#e6f7ff";
+        result.style.borderLeft = "5px solid #3399ff";
       } else {
         result.textContent = "Your symptoms are more consistent with a regular headache.";
+        result.style.background = "#e6ffe6";
+        result.style.borderLeft = "5px solid #33cc33";
       }
     });
   </script>
