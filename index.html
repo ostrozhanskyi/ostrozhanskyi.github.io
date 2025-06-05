@@ -2,177 +2,200 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Headache or Migraine?</title>
+  <title>Glowing Border</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    :root{
+      --color-red: rgb(255,0,0);
+      --color-yellow: rgb(255,255,0);
+      --color-green: rgb(0,255,0);
+      --color-cyan: rgb(0,255,255);
+      --color-blue: rgb(0,0,255);
+      --color-magenta: rgb(255,0,255);
+
+      --palette: var(--color-red), var(--color-yellow), var(--color-green), var(--color-cyan), var(--color-blue), var(--color-magenta), var(--color-red);
+      --palette-mirror: var(--color-red), var(--color-magenta), var(--color-blue), var(--color-cyan), var(--color-green), var(--color-yellow), var(--color-red);
+
+      --box-width: min(max(70ch, 35vw), 100%);
+      --box-height: max(calc(var(--box-width) * 2));
+      --border-size: 3px;
+      --box-side-margin: 1rem;
+      --border-box: var(--border-size) solid transparent;
+      --canvas-color: Canvas;
+    }
+
+    @property --border-deg{
+      syntax: '<angle>';
+      inherits: true;
+      initial-value: 0deg;
+    }
+
+    @keyframes border-animate {
+      to {
+        --border-deg: 360deg;
+      }
+    }
+
+    @keyframes border-animate-reverse {
+      from{
+        --border-deg: 90deg;
+      }
+      to {
+        --border-deg: 450deg;
+      }
+    }
+
     * {
+      margin: 0;
       box-sizing: border-box;
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #f2f2f2;
+    body{
+      background: var(--background-color, Canvas);
     }
 
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    .first{
+      min-height: 100vh;
     }
 
-    h1 {
-      text-align: center;
-      font-size: 24px;
-      margin-bottom: 24px;
+    .light,
+    .dark{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .question {
-      margin-bottom: 20px;
+    .dark{
+      --border-deg: 90deg;
+      color-scheme: dark;
+      background-color: Canvas;
+      color: CanvasText;
     }
 
-    .question p {
-      margin: 0 0 10px;
-      font-weight: bold;
+    .box{
+      width: var(--box-width);
+      padding: 1em;
+      border: var(--border-box);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      cursor: pointer;
+    .left,
+    .right{
+      aspect-ratio: 3/1;
     }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      background-color: #0066cc;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
+    .up,
+    .down{
+      aspect-ratio:1/1;
     }
 
-    button:hover {
-      background-color: #004d99;
+    .left{
+      margin: 1em 0;
+      border-radius: 0 100vw 100vw 0;
+      border-left: 0;
+    }
+    .right{
+      margin: 1em 0;
+      align-self: flex-end;
+      border-radius: 100vw 0 0 100vw;
+      border-right: 0;
+    }
+    .up{
+      padding: 2em 3em 0;
+      margin-top: 1em;
+      margin-left: var(--box-side-margin);
+      width: calc(50% + (var(--border-size) / 2) - var(--box-side-margin));
+      border-radius: 100vw 100vw 0 0;
+      border-bottom: 0;
+    }
+    .down{
+      padding: 0 3em 2em;
+      align-self: flex-end;
+      margin-bottom: 1em;
+      margin-right: var(--box-side-margin);
+      width: calc(50% + (var(--border-size) / 2) - var(--box-side-margin));
+      border-radius: 0  0 100vw 100vw;
+      border-top: 0;
     }
 
-    #result {
-      margin-top: 30px;
-      padding: 15px;
-      background: #e6f7ff;
-      border-left: 5px solid #3399ff;
-      font-weight: bold;
-      font-size: 16px;
-      border-radius: 6px;
+    .glowing-border{
+      position: relative;
+      isolation: isolate;
     }
 
-    @media (max-width: 500px) {
-      h1 {
-        font-size: 20px;
-      }
-      button {
-        font-size: 14px;
-      }
+    .glowing-border.left,
+    .glowing-border.up{
+      background: 
+      linear-gradient(var(--background-color, Canvas) 0 0) padding-box,
+      conic-gradient(from var(--border-deg), var(--palette)) border-box;
+    }
+
+    .glowing-border.right,
+    .glowing-border.down{
+      background: 
+      linear-gradient(var(--background-color, Canvas) 0 0) padding-box,
+      conic-gradient(from var(--border-deg), var(--palette-mirror)) border-box;
+    }
+
+    .glowing-border::before,
+    .glowing-border::after {
+      content: "";
+      position: absolute;
+      border-radius: inherit;
+      z-index: -1;
+      filter: blur(2rem);
+      inset: var(--border-size);
+    }
+
+    .glowing-border::before {
+      background: conic-gradient(from var(--border-deg), var(--palette)) border-box;
+      opacity: 0.5;
+    }
+
+    .glowing-border::after {
+      background: var(--background-color, Canvas);
+    }
+
+    .animated-border{
+      animation: border-animate 10s linear infinite;
+    }
+
+    .animated-border-reverse{
+      animation: border-animate-reverse 10s linear infinite reverse;
     }
   </style>
 </head>
 <body>
-
-  <div class="container">
-    <h1>Headache vs Migraine Checker</h1>
-
-    <form id="symptomForm">
-      <div class="question">
-        <p>1. Where is the pain located?</p>
-        <label><input type="radio" name="q1" value="headache"> Both sides or forehead</label>
-        <label><input type="radio" name="q1" value="migraine"> One side</label>
-      </div>
-
-      <div class="question">
-        <p>2. What does the pain feel like?</p>
-        <label><input type="radio" name="q2" value="headache"> Dull or pressing</label>
-        <label><input type="radio" name="q2" value="migraine"> Throbbing or pulsing</label>
-      </div>
-
-      <div class="question">
-        <p>3. How intense is the pain?</p>
-        <label><input type="radio" name="q3" value="headache"> Mild to moderate</label>
-        <label><input type="radio" name="q3" value="migraine"> Moderate to severe</label>
-      </div>
-
-      <div class="question">
-        <p>4. Do you feel nauseous or vomit?</p>
-        <label><input type="radio" name="q4" value="headache"> No</label>
-        <label><input type="radio" name="q4" value="migraine"> Yes</label>
-      </div>
-
-      <div class="question">
-        <p>5. Are you sensitive to light, sound, or smells?</p>
-        <label><input type="radio" name="q5" value="headache"> No</label>
-        <label><input type="radio" name="q5" value="migraine"> Yes</label>
-      </div>
-
-      <div class="question">
-        <p>6. Does movement make it worse?</p>
-        <label><input type="radio" name="q6" value="headache"> No</label>
-        <label><input type="radio" name="q6" value="migraine"> Yes</label>
-      </div>
-
-      <div class="question">
-        <p>7. Do you experience an aura (like flashing lights or numbness)?</p>
-        <label><input type="radio" name="q7" value="headache"> No</label>
-        <label><input type="radio" name="q7" value="migraine"> Yes</label>
-      </div>
-
-      <button type="submit">Check Result</button>
-    </form>
-
-    <div id="result"></div>
+  <div class="dark first">
+    <div class="glowing-border box left animated-border-reverse">
+      <h1>Ask anything</h1>
+      <p>Trying to wrap your head about a new topic? Looking for specific recommendations? Need help deciding between two products? Just ask.</p>
+    </div>
+    <div class="glowing-border box right">
+      <h1>Ask any way</h1>
+      <p>Type, talk, snap a photo, or upload an image. AI Mode uses advanced multimodal capabilities to deeply understand your question, no matter how you ask.</p>
+    </div>
+    <div class="glowing-border box up">
+      <h1>Research made easy</h1>
+      <p>Ask your question all in one go, with all the details you care about. AI Mode does the heavy lifting, intelligently organizing information with simple breakdowns and helpful links to explore more on the web.</p>
+    </div>
   </div>
-
-  <script>
-    document.getElementById("symptomForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const form = e.target;
-      const result = document.getElementById("result");
-      const formData = new FormData(form);
-
-      let migraineScore = 0;
-      let answered = 0;
-
-      for (let i = 1; i <= 7; i++) {
-        const value = formData.get("q" + i);
-        if (value) {
-          answered++;
-          if (value === "migraine") {
-            migraineScore++;
-          }
-        }
-      }
-
-      if (answered < 7) {
-        result.textContent = "Please answer all questions before checking the result.";
-        result.style.background = "#fff3cd";
-        result.style.borderLeft = "5px solid #ffa500";
-        return;
-      }
-
-      if (migraineScore >= 4) {
-        result.textContent = "Your symptoms are more consistent with a migraine.";
-        result.style.background = "#e6f7ff";
-        result.style.borderLeft = "5px solid #3399ff";
-      } else {
-        result.textContent = "Your symptoms are more consistent with a regular headache.";
-        result.style.background = "#e6ffe6";
-        result.style.borderLeft = "5px solid #33cc33";
-      }
-    });
-  </script>
-
+  <div class="light">
+    <div class="glowing-border box down">
+      <h1>Keep asking, keep discovering</h1>
+      <p>Ask follow-up questions to dig deeper or change course. Easily revisit past searches to pick up where you left off.</p>
+    </div>
+    <div class="glowing-border box left">
+      <h1>Reliable results from the best of the web</h1>
+      <p>AI Mode connects you to high quality information from the best of the web. You’ll find helpful links to evaluate sources and explore further from a wide range of perspectives.</p>
+    </div>
+    <div class="glowing-border box right">
+      <h1>Ask any way</h1>
+      <p>Type, talk, snap a photo, or upload an image. AI Mode uses advanced multimodal capabilities to deeply understand your question, no matter how you ask.</p>
+    </div>
+  </div>
+  
 </body>
 </html>
